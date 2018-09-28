@@ -259,4 +259,8 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
 - (void)setIndexChangeBlock:(IndexChangeBlock)indexChangeBlock;
 - (void)setTitleFormatter:(HMTitleFormatterBlock)titleFormatter;
 
+- (void)subScrollViewDidScroll:(UIScrollView *)scrollView;
+- (void)subScrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
+
+@property (nonatomic, assign) BOOL inClickAniming;
 @end

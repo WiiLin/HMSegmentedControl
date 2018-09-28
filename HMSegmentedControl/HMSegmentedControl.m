@@ -969,4 +969,39 @@
     return [resultingAttrs copy];
 }
 
+-(void)subScrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    CGRect rect1 = self.selectionIndicatorBoxLayer.frame;
+    CGRect rect2 = self.selectionIndicatorStripLayer.frame;
+    rect1.origin.x = scrollView.contentOffset.x / self.sectionTitles.count;
+    rect2.origin.x = scrollView.contentOffset.x / self.sectionTitles.count;
+    self.selectionIndicatorBoxLayer.frame = rect1;
+    self.selectionIndicatorStripLayer.frame = rect2;
+}
+- (void)subScrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    CGPoint targtOffect = *targetContentOffset;
+    
+    
+    CGFloat offect = targtOffect.x / self.sectionTitles.count;
+    CGRect rect1 = self.selectionIndicatorBoxLayer.frame;
+    CGRect rect2 = self.selectionIndicatorStripLayer.frame;
+    rect1.origin.x = offect;
+    rect2.origin.x = offect;
+    [UIView animateWithDuration:0.15f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.selectionIndicatorBoxLayer.frame = rect1;
+                         self.selectionIndicatorStripLayer.frame = rect2;
+                         
+                         
+                     } completion:^(BOOL finished){
+                         NSInteger page = 0;
+                         page = targtOffect.x / CGRectGetWidth(self.frame);
+                         if(self.selectedSegmentIndex != page){
+                             [self setSelectedSegmentIndex:page animated:YES];
+                         }
+                     }];
+}   
+
 @end
